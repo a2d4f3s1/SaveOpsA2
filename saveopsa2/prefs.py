@@ -1,7 +1,20 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
+from bpy.app.translations import pgettext_rpt as rpt_
 from bpy.props import BoolProperty, IntProperty, StringProperty
+
+# Every user-facing setting, for the reset operator. Kept explicit so RNA
+# internals like bl_idname can never be unset by accident.
+_PREF_PROPS = (
+    "backup_dir_name",
+    "max_versions",
+    "backup_when_versions_disabled",
+    "autosave_enabled",
+    "auto_backup_dir_name",
+    "autosave_interval_min",
+    "max_auto_copies",
+)
 
 
 def _on_autosave_toggle(self, context):
@@ -93,15 +106,46 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         box.label(text="Save Versions and crash-recovery autosave are not changed")
         box.label(text="Folder, naming and count above are SaveOpsA2's own settings")
 
+        layout.separator()
+        layout.operator(SAVEOPSA2_OT_reset_preferences.bl_idname, icon='LOOP_BACK')
+
+
+class SAVEOPSA2_OT_reset_preferences(bpy.types.Operator):
+    bl_idname = "saveopsa2.reset_preferences"
+    bl_label = "Reset All Preferences"
+    bl_description = "Reset every SaveOpsA2 setting to its default value"
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_confirm(self, event)
+
+    def execute(self, context):
+        prefs = get_prefs(context)
+        for name in _PREF_PROPS:
+            # Drops the stored override so the class default shows through.
+            prefs.property_unset(name)
+        # property_unset does not fire update callbacks; resync the timer.
+        from . import handlers
+        handlers.ensure_timer_state()
+        self.report({'INFO'}, rpt_("Preferences reset to defaults"))
+        return {'FINISHED'}
+
 
 def get_prefs(context=None):
     context = context or bpy.context
     return context.preferences.addons[__package__].preferences
 
 
+_classes = (
+    SAVEOPSA2_Preferences,
+    SAVEOPSA2_OT_reset_preferences,
+)
+
+
 def register():
-    bpy.utils.register_class(SAVEOPSA2_Preferences)
+    for cls in _classes:
+        bpy.utils.register_class(cls)
 
 
 def unregister():
-    bpy.utils.unregister_class(SAVEOPSA2_Preferences)
+    for cls in reversed(_classes):
+        bpy.utils.unregister_class(cls)

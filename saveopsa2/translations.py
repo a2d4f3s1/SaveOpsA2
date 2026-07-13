@@ -77,7 +77,14 @@ translations_dict = {
         ("*", "Folder holding timer snapshot copies"):
             "タイマーによるスナップショットコピーが入るフォルダ",
 
+        ("*", "Reset All Preferences"):
+            "すべての設定をリセット",
+        ("*", "Reset every SaveOpsA2 setting to its default value"):
+            "SaveOpsA2 の設定をすべてデフォルト値に戻します",
+
         # --- Report messages ---
+        ("*", "Preferences reset to defaults"):
+            "設定をデフォルト値に戻しました",
         ("*", "No backup folder yet"):
             "バックアップフォルダはまだありません",
         ("*", "File has not been saved yet"):
