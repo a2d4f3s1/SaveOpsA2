@@ -15,7 +15,7 @@ from bpy.app.translations import pgettext_rpt as rpt_
 # Blender's main thread, so a plain bool is race-free.
 _internal_save_in_progress = False
 
-TIMESTAMP_FMT = "%Y-%m-%d_%H-%M-%S"
+TIMESTAMP_FMT = "%Y%m%d-%H%M%S"
 AUTO_TAG = "auto"     # timer and "Backup Now" snapshot copies
 
 _DEFAULT_BACKUP_DIR = "_backup"
@@ -65,7 +65,7 @@ def owned_backup_pattern(stem: str, tag: str) -> re.Pattern:
     return re.compile(
         re.escape(stem)
         + "_" + tag
-        + r"_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}(?:-\d+)?\.blend"
+        + r"_\d{8}-\d{6}(?:-\d+)?\.blend"
     )
 
 
