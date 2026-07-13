@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
+from bpy.app.translations import pgettext_rpt as rpt_
 from bpy.props import EnumProperty
 
 from . import core
@@ -45,7 +46,7 @@ class SAVEOPSA2_OT_open_backup_folder(bpy.types.Operator):
         dir_name = prefs.backup_dir_name if self.which == 'SAVE' else prefs.auto_backup_dir_name
         backup_dir = core.backup_dir_for(bpy.data.filepath, dir_name)
         if not backup_dir.is_dir():
-            self.report({'ERROR'}, "No backup folder yet")
+            self.report({'ERROR'}, rpt_("No backup folder yet"))
             return {'CANCELLED'}
         bpy.ops.wm.path_open(filepath=str(backup_dir))
         return {'FINISHED'}

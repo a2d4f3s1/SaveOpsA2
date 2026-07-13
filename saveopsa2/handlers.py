@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import shutil
 from pathlib import Path
 
 import bpy
@@ -40,11 +39,7 @@ def saveopsa2_save_pre(filepath, *_):
             return
         backup_dir = core.backup_dir_for(filepath, prefs.backup_dir_name)
         backup_dir.mkdir(parents=True, exist_ok=True)
-        dst = core.unique_path(
-            backup_dir / core.make_backup_name(src.stem, core.MANUAL_TAG, src.stat().st_mtime)
-        )
-        shutil.copy2(src, dst)
-        core.rotate(backup_dir, src.stem, core.MANUAL_TAG, prefs.max_versions)
+        core.insert_into_chain(src, backup_dir, src.stem, prefs.max_versions, copy=True)
     except Exception as ex:
         # A failing backup must never break the user's save.
         print(f"SaveOpsA2: pre-save backup failed: {ex}")
@@ -52,7 +47,7 @@ def saveopsa2_save_pre(filepath, *_):
 
 @persistent
 def saveopsa2_save_post(filepath, *_):
-    """Move the .blendN files Blender just created into the backup folder."""
+    """Move the .blendN files Blender just created into the backup chain."""
     try:
         if core._internal_save_in_progress:
             return
@@ -67,14 +62,7 @@ def saveopsa2_save_post(filepath, *_):
         # Saving a file that already lives in a backup folder must not nest.
         if path.parent.name in core.backup_dir_names(prefs):
             return
-        moved = core.move_blendn_files(filepath, prefs)
-        if moved:
-            core.rotate(
-                core.backup_dir_for(filepath, prefs.backup_dir_name),
-                path.stem,
-                core.MANUAL_TAG,
-                prefs.max_versions,
-            )
+        core.move_blendn_files(filepath, prefs)
     except Exception as ex:
         print(f"SaveOpsA2: post-save backup failed: {ex}")
 

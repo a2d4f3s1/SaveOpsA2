@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 
 import bpy
+from bpy.app.translations import pgettext_rpt as rpt_
 
 # Set while SaveOpsA2 itself writes a snapshot copy, so the save handlers can
 # tell our own saves apart from the user's. Handlers and timers all run on
@@ -15,7 +16,6 @@ import bpy
 _internal_save_in_progress = False
 
 TIMESTAMP_FMT = "%Y-%m-%d_%H-%M-%S"
-MANUAL_TAG = "v"      # backups taken from .blendN files / pre-save copies
 AUTO_TAG = "auto"     # timer and "Backup Now" snapshot copies
 
 _DEFAULT_BACKUP_DIR = "_backup"
@@ -69,23 +69,68 @@ def owned_backup_pattern(stem: str, tag: str) -> re.Pattern:
     )
 
 
+def chain_pattern(stem: str) -> re.Pattern:
+    """Matches only this exact stem's .blendN files inside the backup folder.
+
+    The chain must never rename or delete a file belonging to another stem.
+    """
+    return re.compile(re.escape(stem) + r"\.blend(\d+)")
+
+
+def _chain_entries(backup_dir: Path, stem: str) -> list:
+    """(number, path) pairs of the stem's backup chain, lowest number first."""
+    pattern = chain_pattern(stem)
+    entries = []
+    for p in backup_dir.iterdir():
+        if not p.is_file():
+            continue
+        m = pattern.fullmatch(p.name)
+        if m:
+            entries.append((int(m.group(1)), p))
+    entries.sort()
+    return entries
+
+
+def insert_into_chain(src: Path, backup_dir: Path, stem: str, keep: int,
+                      copy: bool = False) -> Path:
+    """Slot src in as <stem>.blend1, shifting the existing chain up by one.
+
+    Uses the same .blendN naming convention as Blender's own Save Versions,
+    but inside the backup folder so the two never collide. Entries shifted
+    past `keep` are deleted; `keep` is this add-on's own setting, independent
+    of Blender's Save Versions preference.
+    """
+    keep = max(keep, 1)
+    # Highest number first so every rename target is already vacated.
+    for number, path in reversed(_chain_entries(backup_dir, stem)):
+        if number + 1 > keep:
+            os.remove(path)
+        else:
+            path.rename(backup_dir / f"{stem}.blend{number + 1}")
+    dst = backup_dir / f"{stem}.blend1"
+    if copy:
+        shutil.copy2(src, dst)
+    else:
+        shutil.move(str(src), str(dst))
+    return dst
+
+
 def move_blendn_files(blend_filepath: str, prefs) -> list:
-    """Move .blend1 .. .blendN left next to the file into the backup folder."""
+    """Move .blend1 .. .blendN left next to the file into the backup chain."""
     base = Path(blend_filepath)
     save_version = bpy.context.preferences.filepaths.save_version
     moved = []
-    for n in range(1, max(save_version, 1) + 1):
+    # Oldest first (highest number) so the chain keeps .blend1 as the newest.
+    for n in range(max(save_version, 1), 0, -1):
         src = Path(f"{blend_filepath}{n}")
         if not src.is_file():
             continue
         try:
             backup_dir = backup_dir_for(blend_filepath, prefs.backup_dir_name)
             backup_dir.mkdir(parents=True, exist_ok=True)
-            dst = unique_path(
-                backup_dir / make_backup_name(base.stem, MANUAL_TAG, src.stat().st_mtime)
+            moved.append(
+                insert_into_chain(src, backup_dir, base.stem, prefs.max_versions)
             )
-            shutil.move(str(src), str(dst))
-            moved.append(dst)
         except OSError as ex:
             print(f"SaveOpsA2: could not move {src.name}: {ex}")
     return moved
@@ -122,10 +167,10 @@ def snapshot_copy(prefs) -> tuple:
 
     blend_filepath = bpy.data.filepath
     if not blend_filepath:
-        return False, "File has not been saved yet"
+        return False, rpt_("File has not been saved yet")
     base = Path(blend_filepath)
     if base.parent.name in backup_dir_names(prefs):
-        return False, "File is inside a backup folder, skipping snapshot"
+        return False, rpt_("File is inside a backup folder, skipping snapshot")
 
     try:
         backup_dir = backup_dir_for(blend_filepath, prefs.auto_backup_dir_name)
@@ -134,7 +179,7 @@ def snapshot_copy(prefs) -> tuple:
             backup_dir / make_backup_name(base.stem, AUTO_TAG, time.time())
         )
     except OSError as ex:
-        return False, f"Could not create backup folder: {ex}"
+        return False, rpt_("Could not create backup folder: {error}").format(error=ex)
 
     _internal_save_in_progress = True
     try:
@@ -147,9 +192,9 @@ def snapshot_copy(prefs) -> tuple:
             relative_remap=False,
         )
     except Exception as ex:
-        return False, f"Backup failed: {ex}"
+        return False, rpt_("Backup failed: {error}").format(error=ex)
     finally:
         _internal_save_in_progress = False
 
     rotate(backup_dir, base.stem, AUTO_TAG, prefs.max_auto_copies)
-    return True, f"Backup saved: {target.name}"
+    return True, rpt_("Backup saved: {name}").format(name=target.name)

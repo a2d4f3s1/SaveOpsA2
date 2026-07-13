@@ -18,17 +18,21 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         default="_backup",
     )
     max_versions: IntProperty(
-        name="Save Backups to Keep",
-        description="How many moved .blend1 backups to keep per file",
+        name="Backup Versions",
+        description=(
+            "How many .blendN backups to keep in the backup folder, "
+            "independent of Blender's own Save Versions setting"
+        ),
         default=10,
         min=1,
         soft_max=100,
     )
     backup_when_versions_disabled: BoolProperty(
-        name="Backup on Save when 'Save Versions' is 0",
+        name="Backup Even Without .blend1",
         description=(
-            "If Blender's Save Versions preference is 0 no .blend1 is created; "
-            "copy the previous file into the backup folder before it is overwritten"
+            "When Blender's 'Save Versions' setting is 0, saving creates no "
+            ".blend1 backup; copy the old file into the backup folder just "
+            "before it is overwritten instead"
         ),
         default=True,
     )
