@@ -47,8 +47,13 @@ translations_dict = {
             "自動バックアップ保持数",
         ("*", "How many auto-backup copies to keep per file"):
             "ファイルごとに保持する自動バックアップの数",
-        ("*", "Blender's own crash-recovery autosave (temp folder) is not affected."):
-            "Blender 標準のクラッシュ復旧用自動保存（temp フォルダ）には影響しません。",
+        ("*", "Fully independent of Blender's built-in backup features"):
+            "Blender 標準のバックアップ機能とは完全に独立しています",
+        ("*", "Save Versions and crash-recovery autosave are not changed"):
+            "標準の「保存バージョン数」とクラッシュ復旧用自動保存の設定・動作は"
+            "一切変更しません",
+        ("*", "Folder, naming and count above are SaveOpsA2's own settings"):
+            "上記のフォルダ・命名・世代数はすべて SaveOpsA2 独自の設定です",
 
         # --- Operators / File menu ---
         ("*", "Backup Now"):

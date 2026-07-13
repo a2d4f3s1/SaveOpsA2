@@ -48,7 +48,7 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
             "Subfolder next to the blend file where auto-backup copies are stored; "
             "use the same name as the save backup folder to share one folder"
         ),
-        default="_backup",
+        default="_autobackup",
     )
     autosave_interval_min: IntProperty(
         name="Interval (minutes)",
@@ -84,10 +84,14 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         sub.prop(self, "max_auto_copies")
 
         layout.separator()
-        layout.label(
-            text="Blender's own crash-recovery autosave (temp folder) is not affected.",
-            icon='INFO',
+        box = layout.box()
+        box.alert = True
+        box.label(
+            text="Fully independent of Blender's built-in backup features",
+            icon='ERROR',
         )
+        box.label(text="Save Versions and crash-recovery autosave are not changed")
+        box.label(text="Folder, naming and count above are SaveOpsA2's own settings")
 
 
 def get_prefs(context=None):
