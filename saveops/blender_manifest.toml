@@ -1,0 +1,23 @@
+schema_version = "1.0.0"
+
+id = "saveops"
+version = "1.1.0"
+name = "SaveOps"
+tagline = "Timestamped blend file backups on save and on a timer"
+maintainer = "a2d4f3s1"
+type = "add-on"
+
+tags = ["System"]
+
+blender_version_min = "4.2.0"
+
+license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+files = "Create and rotate blend file backups next to your project files"
+
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  "*.zip",
+]

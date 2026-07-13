@@ -1,0 +1,13 @@
+# Allowlist-style .gitignore:
+# ignore everything by default, then explicitly re-include what is tracked.
+# Anything not listed below (e.g. .claude/, dist/, local notes) never enters git.
+/*
+
+# --- tracked content ---
+!/.gitignore
+!/README.md
+!/saveops/
+
+# --- generated files inside tracked dirs ---
+__pycache__/
+*.pyc
