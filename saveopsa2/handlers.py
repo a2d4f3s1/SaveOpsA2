@@ -16,7 +16,7 @@ def _same_path(a: str, b: str) -> bool:
 
 
 @persistent
-def saveops_save_pre(filepath, *_):
+def saveopsa2_save_pre(filepath, *_):
     """Fallback for Save Versions = 0: no .blend1 will exist, so copy the file
     that is about to be overwritten into the backup folder ourselves."""
     if core._internal_save_in_progress:
@@ -47,11 +47,11 @@ def saveops_save_pre(filepath, *_):
         core.rotate(backup_dir, src.stem, core.MANUAL_TAG, prefs.max_versions)
     except Exception as ex:
         # A failing backup must never break the user's save.
-        print(f"SaveOps: pre-save backup failed: {ex}")
+        print(f"SaveOpsA2: pre-save backup failed: {ex}")
 
 
 @persistent
-def saveops_save_post(filepath, *_):
+def saveopsa2_save_post(filepath, *_):
     """Move the .blendN files Blender just created into the backup folder."""
     try:
         if core._internal_save_in_progress:
@@ -76,7 +76,7 @@ def saveops_save_post(filepath, *_):
                 prefs.max_versions,
             )
     except Exception as ex:
-        print(f"SaveOps: post-save backup failed: {ex}")
+        print(f"SaveOpsA2: post-save backup failed: {ex}")
 
 
 def autosave_tick():
@@ -99,7 +99,7 @@ def autosave_tick():
             pass
     ok, msg = core.snapshot_copy(prefs)
     if not ok:
-        print(f"SaveOps: auto-backup failed: {msg}")
+        print(f"SaveOpsA2: auto-backup failed: {msg}")
     return interval
 
 
@@ -120,18 +120,18 @@ def ensure_timer_state():
 
 def register():
     h = bpy.app.handlers
-    if saveops_save_pre not in h.save_pre:
-        h.save_pre.append(saveops_save_pre)
-    if saveops_save_post not in h.save_post:
-        h.save_post.append(saveops_save_post)
+    if saveopsa2_save_pre not in h.save_pre:
+        h.save_pre.append(saveopsa2_save_pre)
+    if saveopsa2_save_post not in h.save_post:
+        h.save_post.append(saveopsa2_save_post)
     ensure_timer_state()
 
 
 def unregister():
     h = bpy.app.handlers
-    if saveops_save_pre in h.save_pre:
-        h.save_pre.remove(saveops_save_pre)
-    if saveops_save_post in h.save_post:
-        h.save_post.remove(saveops_save_post)
+    if saveopsa2_save_pre in h.save_pre:
+        h.save_pre.remove(saveopsa2_save_pre)
+    if saveopsa2_save_post in h.save_post:
+        h.save_post.remove(saveopsa2_save_post)
     if bpy.app.timers.is_registered(autosave_tick):
         bpy.app.timers.unregister(autosave_tick)

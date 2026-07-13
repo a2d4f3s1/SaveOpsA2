@@ -9,7 +9,7 @@ def _on_autosave_toggle(self, context):
     handlers.ensure_timer_state()
 
 
-class SAVEOPS_Preferences(bpy.types.AddonPreferences):
+class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
     bl_idname = __package__
 
     backup_dir_name: StringProperty(
@@ -92,8 +92,8 @@ def get_prefs(context=None):
 
 
 def register():
-    bpy.utils.register_class(SAVEOPS_Preferences)
+    bpy.utils.register_class(SAVEOPSA2_Preferences)
 
 
 def unregister():
-    bpy.utils.unregister_class(SAVEOPS_Preferences)
+    bpy.utils.unregister_class(SAVEOPSA2_Preferences)

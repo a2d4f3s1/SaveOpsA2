@@ -9,7 +9,7 @@ from pathlib import Path
 
 import bpy
 
-# Set while SaveOps itself writes a snapshot copy, so the save handlers can
+# Set while SaveOpsA2 itself writes a snapshot copy, so the save handlers can
 # tell our own saves apart from the user's. Handlers and timers all run on
 # Blender's main thread, so a plain bool is race-free.
 _internal_save_in_progress = False
@@ -87,7 +87,7 @@ def move_blendn_files(blend_filepath: str, prefs) -> list:
             shutil.move(str(src), str(dst))
             moved.append(dst)
         except OSError as ex:
-            print(f"SaveOps: could not move {src.name}: {ex}")
+            print(f"SaveOpsA2: could not move {src.name}: {ex}")
     return moved
 
 
@@ -109,7 +109,7 @@ def rotate(backup_dir: Path, stem: str, tag: str, keep: int) -> int:
             os.remove(p)
             deleted += 1
         except OSError as ex:
-            print(f"SaveOps: could not delete old backup {p.name}: {ex}")
+            print(f"SaveOpsA2: could not delete old backup {p.name}: {ex}")
     return deleted
 
 

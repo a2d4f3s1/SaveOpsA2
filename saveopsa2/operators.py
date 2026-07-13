@@ -7,8 +7,8 @@ from . import core
 from .prefs import get_prefs
 
 
-class SAVEOPS_OT_backup_now(bpy.types.Operator):
-    bl_idname = "saveops.backup_now"
+class SAVEOPSA2_OT_backup_now(bpy.types.Operator):
+    bl_idname = "saveopsa2.backup_now"
     bl_label = "Backup Now"
     bl_description = "Save a timestamped snapshot copy into the backup folder"
 
@@ -22,8 +22,8 @@ class SAVEOPS_OT_backup_now(bpy.types.Operator):
         return {'FINISHED'} if ok else {'CANCELLED'}
 
 
-class SAVEOPS_OT_open_backup_folder(bpy.types.Operator):
-    bl_idname = "saveops.open_backup_folder"
+class SAVEOPSA2_OT_open_backup_folder(bpy.types.Operator):
+    bl_idname = "saveopsa2.open_backup_folder"
     bl_label = "Open Backup Folder"
     bl_description = "Open this file's backup folder in the system file browser"
 
@@ -54,15 +54,15 @@ class SAVEOPS_OT_open_backup_folder(bpy.types.Operator):
 def draw_file_menu(self, context):
     layout = self.layout
     layout.separator()
-    layout.operator(SAVEOPS_OT_backup_now.bl_idname, icon='FILE_TICK')
+    layout.operator(SAVEOPSA2_OT_backup_now.bl_idname, icon='FILE_TICK')
     op = layout.operator(
-        SAVEOPS_OT_open_backup_folder.bl_idname, icon='FILE_FOLDER'
+        SAVEOPSA2_OT_open_backup_folder.bl_idname, icon='FILE_FOLDER'
     )
     op.which = 'SAVE'
     # A second entry only makes sense when auto-backups live somewhere else.
     if len(core.backup_dir_names(get_prefs(context))) > 1:
         op = layout.operator(
-            SAVEOPS_OT_open_backup_folder.bl_idname,
+            SAVEOPSA2_OT_open_backup_folder.bl_idname,
             text="Open Auto-Backup Folder",
             icon='FILE_FOLDER',
         )
@@ -70,8 +70,8 @@ def draw_file_menu(self, context):
 
 
 _classes = (
-    SAVEOPS_OT_backup_now,
-    SAVEOPS_OT_open_backup_folder,
+    SAVEOPSA2_OT_backup_now,
+    SAVEOPSA2_OT_open_backup_folder,
 )
 
 

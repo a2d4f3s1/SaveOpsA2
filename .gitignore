@@ -6,7 +6,7 @@
 # --- tracked content ---
 !/.gitignore
 !/README.md
-!/saveops/
+!/saveopsa2/
 
 # --- generated files inside tracked dirs ---
 __pycache__/

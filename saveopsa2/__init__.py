@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""SaveOps: timestamped blend file backups on save and on a timer."""
+"""SaveOpsA2: timestamped blend file backups on save and on a timer."""
 
 from . import handlers, operators, prefs
 
