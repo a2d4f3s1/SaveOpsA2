@@ -81,6 +81,18 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
     def draw(self, context):
         layout = self.layout
 
+        box = layout.box()
+        box.alert = True
+        box.label(
+            text="Fully independent of Blender's built-in backup features",
+            icon='ERROR',
+        )
+        sub = box.column(align=True)
+        sub.label(text="Save Versions and crash-recovery autosave are not changed")
+        sub.label(text="Folder, naming and count below are SaveOpsA2's own settings")
+
+        layout.separator()
+
         col = layout.column(heading="On Save")
         col.prop(self, "backup_dir_name")
         col.prop(self, "max_versions")
@@ -95,16 +107,6 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         sub.prop(self, "auto_backup_dir_name")
         sub.prop(self, "autosave_interval_min")
         sub.prop(self, "max_auto_copies")
-
-        layout.separator()
-        box = layout.box()
-        box.alert = True
-        box.label(
-            text="Fully independent of Blender's built-in backup features",
-            icon='ERROR',
-        )
-        box.label(text="Save Versions and crash-recovery autosave are not changed")
-        box.label(text="Folder, naming and count above are SaveOpsA2's own settings")
 
         layout.separator()
         layout.operator(SAVEOPSA2_OT_reset_preferences.bl_idname, icon='LOOP_BACK')

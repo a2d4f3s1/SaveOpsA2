@@ -52,8 +52,8 @@ translations_dict = {
         ("*", "Save Versions and crash-recovery autosave are not changed"):
             "標準の「保存バージョン数」とクラッシュ復旧用自動保存の設定・動作は"
             "一切変更しません",
-        ("*", "Folder, naming and count above are SaveOpsA2's own settings"):
-            "上記のフォルダ・命名・世代数はすべて SaveOpsA2 独自の設定です",
+        ("*", "Folder, naming and count below are SaveOpsA2's own settings"):
+            "以下のフォルダ・命名・世代数はすべて SaveOpsA2 独自の設定です",
 
         # --- Operators / File menu ---
         ("*", "Backup Now"):
