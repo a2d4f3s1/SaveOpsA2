@@ -9,8 +9,8 @@ generation count, and timed auto-backup copies are written as well.
 ![Preferences](docs/SaveOpsA2_UI_preference.png)
 
 > [!IMPORTANT]
-> SaveOpsA2 does not touch Blender's "Save Versions" or "Auto-Save".
-> On Save: moves the .blend1 created by "Save Versions" into the backup folder (even when it is 0, backups are still saved as .blendN)
+> SaveOpsA2 does not touch Blender's "Save Versions" or "Auto-Save".  
+> On Save: moves the .blend1 created by "Save Versions" into the backup folder (even when it is 0, backups are still saved as .blendN)  
 > Auto-Backup: writes its own timestamped copies to a separate folder
 
 ## Features
