@@ -6,6 +6,8 @@
 # --- tracked content ---
 !/.gitignore
 !/README.md
+!/CHANGELOG.md
+!/docs/
 !/saveopsa2/
 
 # --- generated files inside tracked dirs ---
