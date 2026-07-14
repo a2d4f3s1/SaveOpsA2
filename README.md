@@ -1,14 +1,16 @@
 # SaveOpsA2
 
-Blend file backups on save and timed auto-backup copies, for Blender 4.2+.
+Blend file backups on save and timed auto-backup copies for Blender 4.2+,
+fully independent of Blender's built-in backup features.
 
 ![Preferences](docs/SaveOpsA2_UI_preference.png)
 
-> [!WARNING]
-> **SaveOpsA2 is fully independent of Blender's built-in backup features.**
-> It never changes Blender's *Save Versions* or crash-recovery autosave.
-> The backup **folder, naming and generation count** are all the add-on's
-> own settings — nothing overlaps, nothing conflicts.
+> [!IMPORTANT]
+> **Nothing in Blender is changed.** *Save Versions*, crash-recovery
+> autosave, save state and undo history all keep working exactly as before —
+> SaveOpsA2 only adds safety on top. The backup **folder, naming and
+> generation count** are all its own settings, and removing the add-on
+> leaves everything as it was.
 
 ## Features
 
@@ -70,14 +72,16 @@ GPL-3.0-or-later
 
 # 日本語
 
-Blender 4.2+ 向けの保存バックアップ拡張です。保存時のバックアップ保管と、
-タイマーによる自動バックアップコピーを行います。
+Blender 4.2+ 向けの保存バックアップ拡張です。保存時のバックアップ保管と
+タイマーによる自動バックアップコピーを、**Blender 標準のバックアップ機能から
+完全に独立して**行います。
 
-> [!WARNING]
-> **SaveOpsA2 は Blender 標準のバックアップ機能から完全に独立しています。**
-> 標準の「保存バージョン数（Save Versions）」やクラッシュ復旧用の自動保存の
-> 設定・動作は一切変更しません。バックアップの**フォルダ・命名・世代数**は
-> すべてアドオン独自の設定で、標準機能と重複も競合もしません。
+> [!IMPORTANT]
+> **Blender 側の挙動は何も変わりません。**
+> 「保存バージョン数（Save Versions）」・クラッシュ復旧用自動保存・
+> 保存状態・undo 履歴はすべて従来どおり動き続け、SaveOpsA2 は安全性を
+> 上乗せするだけです。バックアップの**フォルダ・命名・世代数**はすべて
+> アドオン独自の設定で、アドオンを外せば完全に元のままです。
 
 ## 機能
 
