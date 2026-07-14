@@ -53,18 +53,13 @@ subfolder at a configurable interval (default 5 minutes).
 
 ## Installation
 
-1. Download `saveopsa2-<version>.zip` (or build it from source, see below).
+1. Download `saveopsa2-<version>.zip` from
+   [Releases](https://github.com/a2d4f3s1/SaveOpsA2/releases).
 2. In Blender: `Edit → Preferences → Get Extensions → ⌄ (top-right menu) →
    Install from Disk…` and pick the zip.
 3. Enable **SaveOpsA2**.
 
 Requires Blender 4.2 or newer. The UI is available in English and Japanese.
-
-## Building from source
-
-```
-blender --command extension build --source-dir saveopsa2 --output-dir dist
-```
 
 ## License
 
