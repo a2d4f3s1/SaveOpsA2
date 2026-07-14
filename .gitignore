@@ -5,6 +5,7 @@
 
 # --- tracked content ---
 !/.gitignore
+!/LICENSE
 !/README.md
 !/CHANGELOG.md
 !/docs/
