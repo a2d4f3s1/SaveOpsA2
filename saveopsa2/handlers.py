@@ -24,8 +24,6 @@ def saveopsa2_save_pre(filepath, *_):
         prefs = get_prefs()
         if not prefs.save_backup_enabled:
             return
-        if not prefs.backup_when_versions_disabled:
-            return
         if bpy.context.preferences.filepaths.save_version > 0:
             return
         # Only an overwrite of the current file loses data; Save As to a new

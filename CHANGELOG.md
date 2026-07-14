@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.7 — 2026-07-14
+
+- The "Save Versions" = 0 fallback now runs automatically; the
+  "Backup Even Without .blend1" preference is removed.
+- Fixed operator button names (Backup Now, Open Backup Folder,
+  Reset All Preferences) not showing in Japanese.
+- Reworded the Preferences notice and the README to match the actual
+  behavior, using Blender's real UI terms.
+
 ## 1.2.6 — 2026-07-14
 
 Initial release.

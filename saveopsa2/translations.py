@@ -19,15 +19,7 @@ translations_dict = {
         ("*", "How many .blendN backups to keep in the backup folder, "
               "independent of Blender's own Save Versions setting"):
             "バックアップフォルダ内に保持する .blendN の世代数"
-            "（Blender 本体の「保存バージョン数」設定とは独立）",
-        ("*", "Backup Even Without .blend1"):
-            ".blend1 が作られなくてもバックアップ",
-        ("*", "When Blender's 'Save Versions' setting is 0, saving creates no "
-              ".blend1 backup; copy the old file into the backup folder just "
-              "before it is overwritten instead"):
-            "Blender 本体の「保存バージョン数」が 0 だと保存時に .blend1 が"
-            "作られません。代わりに、上書きされる直前の古いファイルを"
-            "バックアップフォルダへコピーします",
+            "（Blender 本体の「バージョンを保存」設定とは独立）",
 
         # --- Preferences: Auto-Backup ---
         ("*", "Auto-Backup"):
@@ -48,13 +40,16 @@ translations_dict = {
             "自動バックアップ保持数",
         ("*", "How many auto-backup copies to keep per file"):
             "ファイルごとに保持する自動バックアップの数",
-        ("*", "Fully independent of Blender's built-in backup features"):
-            "Blender 標準のバックアップ機能とは完全に独立しています",
-        ("*", "Save Versions and crash-recovery autosave are not changed"):
-            "標準の「保存バージョン数」とクラッシュ復旧用自動保存の設定・動作は"
-            "一切変更しません",
-        ("*", "Folder, naming and count below are SaveOpsA2's own settings"):
-            "以下のフォルダ・命名・世代数はすべて SaveOpsA2 独自の設定です",
+        ("*", 'SaveOpsA2 does not touch Blender\'s "Save Versions" or "Auto-Save"'):
+            "SaveOpsA2 は Blender 標準の「バージョンを保存」、「自動保存」には"
+            "手を加えません",
+        ("*", 'On Save: moves the .blend1 created by "Save Versions" into the '
+              "backup folder (even when it is 0, backups are still saved as .blendN)"):
+            "保存時: 「バージョンを保存」が作る .blend1 をバックアップフォルダへ"
+            "移します（0 の場合も、.blendN で自動で退避します）",
+        ("*", "Auto-Backup: writes its own timestamped copies to a separate folder"):
+            "自動バックアップ: 独自のタイムスタンプ付きコピーを別フォルダに"
+            "書き出します",
 
         # --- Operators / File menu ---
         ("*", "Backup Now"):
@@ -82,6 +77,16 @@ translations_dict = {
             "すべての設定をリセット",
         ("*", "Reset every SaveOpsA2 setting to its default value"):
             "SaveOpsA2 の設定をすべてデフォルト値に戻します",
+
+        # Operator button labels are looked up with the "Operator" context.
+        ("Operator", "Backup Now"):
+            "今すぐバックアップ",
+        ("Operator", "Open Backup Folder"):
+            "バックアップフォルダを開く",
+        ("Operator", "Open Auto-Backup Folder"):
+            "自動バックアップフォルダを開く",
+        ("Operator", "Reset All Preferences"):
+            "すべての設定をリセット",
 
         # --- Report messages ---
         ("*", "Preferences reset to defaults"):

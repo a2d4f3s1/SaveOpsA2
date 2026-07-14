@@ -10,7 +10,6 @@ _PREF_PROPS = (
     "save_backup_enabled",
     "backup_dir_name",
     "max_versions",
-    "backup_when_versions_disabled",
     "autosave_enabled",
     "auto_backup_dir_name",
     "autosave_interval_min",
@@ -45,15 +44,6 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         default=10,
         min=1,
         soft_max=100,
-    )
-    backup_when_versions_disabled: BoolProperty(
-        name="Backup Even Without .blend1",
-        description=(
-            "When Blender's 'Save Versions' setting is 0, saving creates no "
-            ".blend1 backup; copy the old file into the backup folder just "
-            "before it is overwritten instead"
-        ),
-        default=True,
     )
     autosave_enabled: BoolProperty(
         name="Auto-Backup",
@@ -90,12 +80,15 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         box = layout.box()
         box.alert = True
         box.label(
-            text="Fully independent of Blender's built-in backup features",
+            text='SaveOpsA2 does not touch Blender\'s "Save Versions" or "Auto-Save"',
             icon='ERROR',
         )
         sub = box.column(align=True)
-        sub.label(text="Save Versions and crash-recovery autosave are not changed")
-        sub.label(text="Folder, naming and count below are SaveOpsA2's own settings")
+        sub.label(
+            text='On Save: moves the .blend1 created by "Save Versions" into the '
+                 "backup folder (even when it is 0, backups are still saved as .blendN)"
+        )
+        sub.label(text="Auto-Backup: writes its own timestamped copies to a separate folder")
 
         box = layout.box()
         row = box.row()
@@ -105,7 +98,6 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         col.active = self.save_backup_enabled
         col.prop(self, "backup_dir_name")
         col.prop(self, "max_versions")
-        col.prop(self, "backup_when_versions_disabled")
 
         box = layout.box()
         row = box.row()

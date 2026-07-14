@@ -2,17 +2,16 @@
 
 [日本語](README.md) | [English](README.en.md)
 
-Blend file backups on save and timed auto-backup copies for Blender 4.2+,
-fully independent of Blender's built-in backup features.
+A save-backup extension for Blender 4.2+. The `.blend1` files Blender
+creates on save are kept in a `_backup/` folder under the add-on's own
+generation count, and timed auto-backup copies are written as well.
 
 ![Preferences](docs/SaveOpsA2_UI_preference.png)
 
 > [!IMPORTANT]
-> **Nothing in Blender is changed.** *Save Versions*, crash-recovery
-> autosave, save state and undo history all keep working exactly as before —
-> SaveOpsA2 only adds safety on top. The backup **folder, naming and
-> generation count** are all its own settings, and removing the add-on
-> leaves everything as it was.
+> SaveOpsA2 does not touch Blender's "Save Versions" or "Auto-Save".
+> On Save: moves the .blend1 created by "Save Versions" into the backup folder (even when it is 0, backups are still saved as .blendN)
+> Auto-Backup: writes its own timestamped copies to a separate folder
 
 ## Features
 
@@ -20,16 +19,15 @@ fully independent of Blender's built-in backup features.
 
 Every time you save, the `.blend1` file Blender creates next to your file is
 moved into a `_backup/` subfolder and kept as `<name>.blend1` (newest) …
-`<name>.blendN` (oldest) — the same naming convention as Blender's Save
-Versions, but in its own folder, so your project folder stays clean.
+`<name>.blendN` (oldest) — the same naming convention as Blender's
+"Save Versions", but in its own folder, so your project folder stays clean.
 
 - The generation count is the add-on's own **Backup Versions** setting
-  (default 10), independent of Blender's *Save Versions* value.
+  (default 10), independent of Blender's "Save Versions" value.
 - Rotation only ever renames or deletes files that match the exact same file
   name stem. Anything else in the folder is never touched.
-- **Backup Even Without .blend1** — when Blender's *Save Versions* is 0 and
-  no `.blend1` is created, the old file is copied into the chain just before
-  it is overwritten.
+- When Blender's "Save Versions" is 0 and no `.blend1` is created, the file
+  about to be overwritten is copied into the chain automatically.
 - The whole feature can be switched off with the checkbox in the group
   header.
 
