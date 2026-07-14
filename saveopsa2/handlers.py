@@ -22,6 +22,8 @@ def saveopsa2_save_pre(filepath, *_):
         return
     try:
         prefs = get_prefs()
+        if not prefs.save_backup_enabled:
+            return
         if not prefs.backup_when_versions_disabled:
             return
         if bpy.context.preferences.filepaths.save_version > 0:
@@ -58,6 +60,8 @@ def saveopsa2_save_post(filepath, *_):
         if not _same_path(filepath, bpy.data.filepath):
             return
         prefs = get_prefs()
+        if not prefs.save_backup_enabled:
+            return
         path = Path(filepath)
         # Saving a file that already lives in a backup folder must not nest.
         if path.parent.name in core.backup_dir_names(prefs):

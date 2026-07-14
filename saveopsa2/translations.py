@@ -7,6 +7,9 @@ translations_dict = {
         # --- Preferences: On Save ---
         ("*", "On Save"):
             "保存時",
+        ("*", "Move the .blendN backups Blender creates on save into the backup folder"):
+            "保存時に Blender が作る .blendN バックアップをバックアップフォルダへ"
+            "移動します",
         ("*", "Backup Folder Name"):
             "バックアップフォルダ名",
         ("*", "Subfolder next to the blend file where backups are stored"):
@@ -29,8 +32,6 @@ translations_dict = {
         # --- Preferences: Auto-Backup ---
         ("*", "Auto-Backup"):
             "自動バックアップ",
-        ("*", "Enable Auto-Backup"):
-            "自動バックアップを有効化",
         ("*", "Periodically save a timestamped copy without touching the main file"):
             "本体ファイルには触れずに、タイムスタンプ付きコピーを定期的に保存します",
         ("*", "Auto-Backup Folder Name"):

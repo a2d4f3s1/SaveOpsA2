@@ -7,6 +7,7 @@ from bpy.props import BoolProperty, IntProperty, StringProperty
 # Every user-facing setting, for the reset operator. Kept explicit so RNA
 # internals like bl_idname can never be unset by accident.
 _PREF_PROPS = (
+    "save_backup_enabled",
     "backup_dir_name",
     "max_versions",
     "backup_when_versions_disabled",
@@ -25,6 +26,11 @@ def _on_autosave_toggle(self, context):
 class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
     bl_idname = __package__
 
+    save_backup_enabled: BoolProperty(
+        name="On Save",
+        description="Move the .blendN backups Blender creates on save into the backup folder",
+        default=True,
+    )
     backup_dir_name: StringProperty(
         name="Backup Folder Name",
         description="Subfolder next to the blend file where backups are stored",
@@ -50,7 +56,7 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         default=True,
     )
     autosave_enabled: BoolProperty(
-        name="Enable Auto-Backup",
+        name="Auto-Backup",
         description="Periodically save a timestamped copy without touching the main file",
         default=True,
         update=_on_autosave_toggle,
@@ -92,8 +98,11 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         sub.label(text="Folder, naming and count below are SaveOpsA2's own settings")
 
         box = layout.box()
-        box.label(text="On Save")
+        row = box.row()
+        row.prop(self, "save_backup_enabled", text="")
+        row.label(text="On Save")
         col = box.column()
+        col.active = self.save_backup_enabled
         col.prop(self, "backup_dir_name")
         col.prop(self, "max_versions")
         col.prop(self, "backup_when_versions_disabled")
