@@ -91,22 +91,22 @@ class SAVEOPSA2_Preferences(bpy.types.AddonPreferences):
         sub.label(text="Save Versions and crash-recovery autosave are not changed")
         sub.label(text="Folder, naming and count below are SaveOpsA2's own settings")
 
-        layout.separator()
-
-        col = layout.column(heading="On Save")
+        box = layout.box()
+        box.label(text="On Save")
+        col = box.column()
         col.prop(self, "backup_dir_name")
         col.prop(self, "max_versions")
         col.prop(self, "backup_when_versions_disabled")
 
-        layout.separator()
-
-        col = layout.column(heading="Auto-Backup")
-        col.prop(self, "autosave_enabled")
-        sub = col.column()
-        sub.active = self.autosave_enabled
-        sub.prop(self, "auto_backup_dir_name")
-        sub.prop(self, "autosave_interval_min")
-        sub.prop(self, "max_auto_copies")
+        box = layout.box()
+        row = box.row()
+        row.prop(self, "autosave_enabled", text="")
+        row.label(text="Auto-Backup")
+        col = box.column()
+        col.active = self.autosave_enabled
+        col.prop(self, "auto_backup_dir_name")
+        col.prop(self, "autosave_interval_min")
+        col.prop(self, "max_auto_copies")
 
         layout.separator()
         layout.operator(SAVEOPSA2_OT_reset_preferences.bl_idname, icon='LOOP_BACK')
